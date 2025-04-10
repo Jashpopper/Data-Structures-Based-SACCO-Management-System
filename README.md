@@ -40,17 +40,13 @@ The **SACCO Management System** is a web-based platform designed to facilitate f
 
    ![Withdraw View](withdraw.png)
 
-### 5. **Deposit View**
-   Users can deposit money into their accounts through this page.
 
-   ![Deposit View](DEPOSIT.PNG)
-
-### 6. **Data Structures View**
+### 5. **Data Structures View**
    This view demonstrates the efficiency of different data structures in managing financial transactions.
 
    ![Data Structures View](DATA.png)
 
-### 7. **Performance View**
+### 6. **Performance View**
    Users can track their financial performance over time with visual graphs and data.
 
    ![Performance View](PERF.png)
