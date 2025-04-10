@@ -48,7 +48,7 @@ The **SACCO Management System** is a web-based platform designed to facilitate f
 ### 6. **Data Structures View**
    This view demonstrates the efficiency of different data structures in managing financial transactions.
 
-   ![Data Structures View](data structure used.png)
+   ![Data Structures View](DATA.png)
 
 ### 7. **Performance View**
    Users can track their financial performance over time with visual graphs and data.
