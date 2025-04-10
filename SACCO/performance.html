@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Benchmarking - Farmers SACCO</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: Link to your CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+    <style>
+        /* Reset and Base Styles from SACCO Project */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #2E7D32, #FFD700, #1E3C72, #F57C00);
+            background-size: 400% 400%;
+            animation: gradientFlow 20s ease infinite;
+            color: #333;
+            padding-top: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><circle cx="30" cy="30" r="15" fill="rgba(255,215,0,0.2)"/></svg>') repeat;
+            opacity: 0.1;
+            animation: floatShapes 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes floatShapes {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-30px) translateX(20px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        .container {
+            width: 85%;
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+        }
+
+        th {
+            background-color: #2d3e50;
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            color: #333;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Headings */
+        h2, h3, h4 {
+            color: #333;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Dashboard Button */
+        .dashboard-button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 12px 24px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .dashboard-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* Chart Styling */
+        canvas {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease; /* Added animation */
+        }
+
+        canvas:hover {
+            transform: scale(1.02); /* Subtle zoom on hover */
+        }
+
+        /* Chart Container for Layout */
+        .chart-container {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Dashboard Button -->
+    <a href="dashboard.php" class="dashboard-button">Go to Dashboard</a>
+
+    <div class="form-container">
+        <h2>Data Structure Performance Analysis</h2>
+        <h3>Performance Comparison</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Structure</th>
+                    <th>Operation</th>
+                    <th>Time (ms)</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="benchmark-results">
+                <!-- Benchmark results inserted dynamically -->
+            </tbody>
+        </table>
+
+        <h3>Performance Visualizations</h3>
+        <div class="chart-container">
+            <h4>Operation Performance (Bar Chart)</h4>
+            <canvas id="performanceChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h4>Performance Trends (Line Chart)</h4>
+            <canvas id="trendChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h4>Time Distribution (Doughnut Chart)</h4>
+            <canvas id="distributionChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    
+    <div class="form-container">
+        <h3>Data Structure Selection Justification</h3>
+        
+        <h4>1. Linked List for Deposits</h4>
+        <p>We used a Linked List to store the deposit history because:</p>
+        <ul>
+            <li>Insertions at the head are O(1) constant time</li>
+            <li>It maintains the order of transactions</li>
+            <li>It allows efficient traversal for generating reports</li>
+            <li>No need to pre-allocate memory as with arrays</li>
+        </ul>
+
+        <h4>2. Hash Map for Balances</h4>
+        <p>Hash Maps provide the most efficient way to store and retrieve balances:</p>
+        <ul>
+            <li>O(1) constant time for lookups and updates</li>
+            <li>Perfect for the frequent balance checks during withdrawals</li>
+            <li>Keys (farmer IDs) map directly to their balances</li>
+            <li>Minimal memory overhead compared to database lookups</li>
+        </ul>
+
+        <h4>3. Stack for Recent Transactions</h4>
+        <p>A Stack is ideal for storing the most recent transactions:</p>
+        <ul>
+            <li>Supports Last In, First Out (LIFO) access</li>
+            <li>Allows for efficient transaction rollback and tracking</li>
+            <li>Good for managing the last N transactions</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Sample Data for Benchmarking
+    const benchmarkResults = {
+        'LinkedList': {
+            'insert': 123.45,
+            'retrieve': 67.89
+        },
+        'HashMap': {
+            'insert': 45.67,
+            'retrieve': 12.34
+        },
+        'Stack': {
+            'insert': 89.01,
+            'retrieve': 34.56,
+            'filter': 56.78
+        }
+    };
+
+    // Populate the table with benchmark data
+    const tableBody = document.getElementById('benchmark-results');
+
+    function generateTableRow(dataStructure, operation, time, notes) {
+        return `
+            <tr>
+                <td>${dataStructure}</td>
+                <td>${operation}</td>
+                <td>${time}</td>
+                <td>${notes}</td>
+            </tr>
+        `;
+    }
+
+    tableBody.innerHTML = `
+        ${generateTableRow('Linked List', 'Insert (100k operations)', benchmarkResults.LinkedList.insert, 'Used for storing deposit history')}
+        ${generateTableRow('Linked List', 'Retrieve (one farmer\'s transactions)', benchmarkResults.LinkedList.retrieve, 'O(n) traversal to find transactions')}
+        ${generateTableRow('Hash Map', 'Insert/Update (100k operations)', benchmarkResults.HashMap.insert, 'Used for balance tracking')}
+        ${generateTableRow('Hash Map', 'Retrieve Balance', benchmarkResults.HashMap.retrieve, 'O(1) constant time lookup')}
+        ${generateTableRow('Stack', 'Push (100k operations)', benchmarkResults.Stack.insert, 'Used for transaction history')}
+        ${generateTableRow('Stack', 'Retrieve Recent Transactions', benchmarkResults.Stack.retrieve, 'Good for LIFO (recent first) access')}
+        ${generateTableRow('Stack', 'Filter by Date Range', benchmarkResults.Stack.filter, 'O(n) with filter predicate')}
+    `;
+
+    // Stylish Chart Colors Matching SACCO Theme
+    const chartColors = {
+        linkedList: { bg: 'rgba(46, 125, 50, 0.2)', border: '#2E7D32' }, // Green from SACCO gradient
+        hashMap: { bg: 'rgba(52, 152, 219, 0.2)', border: '#3498db' }, // Blue from SACCO buttons
+        stack: { bg: 'rgba(245, 124, 0, 0.2)', border: '#F57C00' } // Orange from SACCO gradient
+    };
+
+    // 1. Bar Chart - Operation Performance
+    const ctxBar = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: [
+                'Linked List Insert', 'Linked List Retrieve',
+                'Hash Map Insert', 'Hash Map Retrieve',
+                'Stack Push', 'Stack Retrieve', 'Stack Filter'
+            ],
+            datasets: [{
+                label: 'Time (ms)',
+                data: [
+                    benchmarkResults.LinkedList.insert,
+                    benchmarkResults.LinkedList.retrieve,
+                    benchmarkResults.HashMap.insert,
+                    benchmarkResults.HashMap.retrieve,
+                    benchmarkResults.Stack.insert,
+                    benchmarkResults.Stack.retrieve,
+                    benchmarkResults.Stack.filter
+                ],
+                backgroundColor: [
+                    chartColors.linkedList.bg,
+                    chartColors.linkedList.bg,
+                    chartColors.hashMap.bg,
+                    chartColors.hashMap.bg,
+                    chartColors.stack.bg,
+                    chartColors.stack.bg,
+                    chartColors.stack.bg
+                ],
+                borderColor: [
+                    chartColors.linkedList.border,
+                    chartColors.linkedList.border,
+                    chartColors.hashMap.border,
+                    chartColors.hashMap.border,
+                    chartColors.stack.border,
+                    chartColors.stack.border,
+                    chartColors.stack.border
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            animation: {
+                duration: 1500, // Smooth entry animation
+                easing: 'easeOutBounce'
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Time (ms)', color: '#333' },
+                    grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                },
+                x: {
+                    title: { display: true, text: 'Operation', color: '#333' },
+                    grid: { display: false }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Operation Performance',
+                    color: '#333',
+                    font: { size: 18 }
+                },
+                legend: { labels: { color: '#333' } }
+            }
+        }
+    });
+
+    // 2. Line Chart - Performance Trends
+    const ctxLine = document.getElementById('trendChart').getContext('2d');
+    const trendChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: ['Insert', 'Retrieve', 'Filter'],
+            datasets: [
+                {
+                    label: 'Linked List',
+                    data: [benchmarkResults.LinkedList.insert, benchmarkResults.LinkedList.retrieve, 0],
+                    borderColor: chartColors.linkedList.border,
+                    backgroundColor: chartColors.linkedList.bg,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: chartColors.linkedList.border,
+                    pointRadius: 5,
+                    pointHoverRadius: 8
+                },
+                {
+                    label: 'Hash Map',
+                    data: [benchmarkResults.HashMap.insert, benchmarkResults.HashMap.retrieve, 0],
+                    borderColor: chartColors.hashMap.border,
+                    backgroundColor: chartColors.hashMap.bg,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: chartColors.hashMap.border,
+                    pointRadius: 5,
+                    pointHoverRadius: 8
+                },
+                {
+                    label: 'Stack',
+                    data: [benchmarkResults.Stack.insert, benchmarkResults.Stack.retrieve, benchmarkResults.Stack.filter],
+                    borderColor: chartColors.stack.border,
+                    backgroundColor: chartColors.stack.bg,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: chartColors.stack.border,
+                    pointRadius: 5,
+                    pointHoverRadius: 8
+                }
+            ]
+        },
+        options: {
+            animation: {
+                duration: 2000, // Slower, stylish animation
+                easing: 'easeInOutQuad'
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Time (ms)', color: '#333' },
+                    grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                },
+                x: {
+                    title: { display: true, text: 'Operation', color: '#333' },
+                    grid: { display: false }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Performance Trends Across Operations',
+                    color: '#333',
+                    font: { size: 18 }
+                },
+                legend: { labels: { color: '#333' } }
+            }
+        }
+    });
+
+    // 3. Doughnut Chart - Time Distribution
+    const ctxDoughnut = document.getElementById('distributionChart').getContext('2d');
+    const distributionChart = new Chart(ctxDoughnut, {
+        type: 'doughnut',
+        data: {
+            labels: ['Linked List', 'Hash Map', 'Stack'],
+            datasets: [{
+                label: 'Total Time (ms)',
+                data: [
+                    benchmarkResults.LinkedList.insert + benchmarkResults.LinkedList.retrieve,
+                    benchmarkResults.HashMap.insert + benchmarkResults.HashMap.retrieve,
+                    benchmarkResults.Stack.insert + benchmarkResults.Stack.retrieve + benchmarkResults.Stack.filter
+                ],
+                backgroundColor: [
+                    chartColors.linkedList.border,
+                    chartColors.hashMap.border,
+                    chartColors.stack.border
+                ],
+                borderColor: '#fff',
+                borderWidth: 2,
+                hoverOffset: 10 // Stylish hover effect
+            }]
+        },
+        options: {
+            animation: {
+                duration: 1500,
+                easing: 'easeOutElastic'
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Time Distribution Across Data Structures',
+                    color: '#333',
+                    font: { size: 18 }
+                },
+                legend: { labels: { color: '#333' } }
+            },
+            cutout: '60%' // Thicker doughnut
+        }
+    });
+</script>
+
+</body>
+</html>
