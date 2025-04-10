@@ -23,37 +23,37 @@ The **SACCO Management System** is a web-based platform designed to facilitate f
 ### 1. **Dashboard View**
    The Dashboard provides users with an overview of their financial activity, including recent transactions and balance updates.
 
-   ![Dashboard View](DEPOSIT.PNG)
+   ![Dashboard View](DEPOSIT.png)
 
 ### 2. **statement view**
    user can view their statements and history
 
-   ![statement]()
+   ![statement](statement.png)
 
 ### 3. **Signup Page**
    New users can create an account by providing their details.
 
-   ![Signup Page]()
+   ![Signup Page](signup.png)
 
 ### 4. **Withdraw View**
    This page allows users to initiate withdrawals from their accounts.
 
-   ![Withdraw View]()
+   ![Withdraw View](withdraw.png)
 
 ### 5. **Deposit View**
    Users can deposit money into their accounts through this page.
 
-   ![Deposit View](PERF.PNG)
+   ![Deposit View](DEPOSIT.PNG)
 
 ### 6. **Data Structures View**
    This view demonstrates the efficiency of different data structures in managing financial transactions.
 
-   ![Data Structures View]()
+   ![Data Structures View](data structure used.png)
 
 ### 7. **Performance View**
    Users can track their financial performance over time with visual graphs and data.
 
-   ![Performance View]()
+   ![Performance View](PERF.png)
 
 ---
 
