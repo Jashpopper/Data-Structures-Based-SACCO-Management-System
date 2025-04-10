@@ -23,7 +23,7 @@ The **SACCO Management System** is a web-based platform designed to facilitate f
 ### 1. **Dashboard View**
    The Dashboard provides users with an overview of their financial activity, including recent transactions and balance updates.
 
-   ![Dashboard View]()
+   ![Dashboard View](DEPOSIT.PNG)
 
 ### 2. **statement view**
    user can view their statements and history
@@ -43,7 +43,7 @@ The **SACCO Management System** is a web-based platform designed to facilitate f
 ### 5. **Deposit View**
    Users can deposit money into their accounts through this page.
 
-   ![Deposit View]()
+   ![Deposit View](PERF.PNG)
 
 ### 6. **Data Structures View**
    This view demonstrates the efficiency of different data structures in managing financial transactions.
